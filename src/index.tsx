@@ -1,20 +1,21 @@
-import React, { createContext, useContext } from "react";
+import React, { createContext } from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 
-type Infomation = {
+type Information = {
   name: string;
   age: number;
 };
 
-const myInfo: Infomation = {
+const myInfo: Information = {
   name: "K659903",
   age: 24,
 };
 
-const MyInfoContext = createContext(myInfo);
+export const MyInfoContext =
+  createContext<Partial<Information | undefined>>(myInfo);
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement

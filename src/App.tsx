@@ -4,9 +4,13 @@ import React, {
   useContext,
   useRef,
   useReducer,
+  useMemo,
+  useCallback,
 } from "react";
 import "./App.css";
 import { MyInfoContext } from "./index";
+import SomeChild from "./SomeChild";
+import useLocalStorage from "./useLocalStorage";
 
 const initialState = { count: 0 };
 
@@ -41,13 +45,29 @@ function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
   const [count01, setCount01] = useState(0);
   const [count02, setCount02] = useState(0);
-  const square = () => {
+  const square = useMemo(() => {
     let i = 0;
-    while (i < 2) {
+    while (i < 2000000000) {
       i++;
     }
-    return count02 * count01;
-  };
+    return count02 * count02;
+  }, [count02]);
+  // const square = () => {
+  //   let i = 0;
+  //   while (i < 200) {
+  //     i++;
+  //   }
+  //   return count02 * count01;
+  // };
+  const [counter, setCounter] = useState(0);
+  // const showCount = () => {
+  //   alert("UseCallback..callback関数のメモ化")
+  // }
+  const showCount = useCallback((): void => {
+    alert("UseCallback..callback関数のメモ化");
+  }, [counter]);
+
+  const [age, setAge] = useLocalStorage("age", 24);
   return (
     <div className="App">
       <hr />
@@ -75,11 +95,16 @@ function App() {
       <h1>UseMemo</h1>
       <div>Count1 : {count01}</div>
       <div>Count2 : {count02}</div>
-      <div>Result : {square()}</div>
-      <button onClick={() => setCount01}>+</button>
-      <button onClick={() => setCount02}>-</button>
+      <div>Result : {square}</div>
+      <button onClick={() => setCount01(count01 + 1)}>+</button>
+      <button onClick={() => setCount02(count02 + 1)}>+</button>
       <hr />
       <h1>UseCallback</h1>
+      {/* <SomeChild showCount={showCount} /> */}
+      <hr />
+      <h1>Custom Hooks</h1>
+      <p>{age}</p>
+      <button onClick={() => setAge(80)}>Set Age</button>
     </div>
   );
 }

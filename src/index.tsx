@@ -14,8 +14,7 @@ const myInfo: Information = {
   age: 24,
 };
 
-export const MyInfoContext =
-  createContext<Partial<Information | undefined>>(myInfo);
+export const MyInfoContext = createContext<Information>(myInfo);
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
